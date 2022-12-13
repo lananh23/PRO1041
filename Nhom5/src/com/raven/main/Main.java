@@ -16,6 +16,7 @@ import com.raven.form.TraHangFrm;
 import com.raven.form.doanhThuFrm;
 import com.raven.form.doiHangFrm;
 import com.raven.form.doiMatKhau;
+import com.raven.form.taiKhoanFrm;
 import com.raven.swing.MenuItem;
 import com.raven.swing.PopupMenu;
 import com.raven.swing.icon.GoogleMaterialDesignIcons;
@@ -78,8 +79,8 @@ public class Main extends javax.swing.JFrame {
                 //}
                 }else if(menuIndex == 8){
                     main.showForm(new doanhThuFrm());
-//                }else if(menuIndex == 9){
-//                    main.showForm(new FrmBanHang());
+                }else if(menuIndex == 9){
+                    main.showForm(new taiKhoanFrm());
                 }else if(menuIndex == 10){
                     main.showForm(new doiMatKhau());
                 }else if(menuIndex == 11){

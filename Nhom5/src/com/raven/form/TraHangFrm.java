@@ -4,6 +4,7 @@
  */
 package com.raven.form;
 
+import DomainModels.dangNhap;
 import ServiceImpl.ManageHoaDonChiTietService;
 import ServiceImpl.ManageHoaDonService;
 import ServiceImpl.ManagePhieuTraHangCTService;
@@ -50,6 +51,7 @@ public class TraHangFrm extends javax.swing.JPanel {
         this.ndService = new NguoiDungServiceImpl();
         this.loadTableTH();
         this.clearForm();
+        this.clear();
     }
 
     public void clearForm() {
@@ -64,7 +66,7 @@ public class TraHangFrm extends javax.swing.JPanel {
     public void clear(){
         this.lblMaKH.setText("--");
         this.lblMaHD.setText("--");
-        this.txtNgayTra.setText("");
+        this.txtNgayTra.setText(java.time.LocalDate.now().toString());
         this.txtLyDo.setText("");
         this.lblTienTraLai.setText("--");
     }
@@ -194,11 +196,11 @@ public class TraHangFrm extends javax.swing.JPanel {
         btnHoanTra = new javax.swing.JButton();
         lblMaHD = new javax.swing.JLabel();
         lblTienTraLai = new javax.swing.JLabel();
-        txtNgayTra = new javax.swing.JTextField();
         lblMaPT = new javax.swing.JLabel();
         txtLyDo = new javax.swing.JTextField();
         lblMaKH = new javax.swing.JLabel();
         lblMaNV = new javax.swing.JLabel();
+        txtNgayTra = new javax.swing.JLabel();
         jPanel18 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
         jLabel29 = new javax.swing.JLabel();
@@ -277,6 +279,8 @@ public class TraHangFrm extends javax.swing.JPanel {
 
         lblMaNV.setText("--");
 
+        txtNgayTra.setText("--");
+
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
         jPanel19Layout.setHorizontalGroup(
@@ -289,17 +293,22 @@ public class TraHangFrm extends javax.swing.JPanel {
                             .addComponent(jLabel36)
                             .addComponent(jLabel35)
                             .addComponent(jLabel34))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                                    .addComponent(btnHoanTra)
-                                    .addGap(147, 147, 147))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
-                                    .addComponent(txtLyDo, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(118, 118, 118)))
-                            .addComponent(lblTienTraLai, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                                .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                            .addComponent(btnHoanTra)
+                                            .addGap(147, 147, 147))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel19Layout.createSequentialGroup()
+                                            .addComponent(txtLyDo, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(118, 118, 118)))
+                                    .addComponent(lblTienTraLai, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel19Layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel30)
@@ -334,13 +343,14 @@ public class TraHangFrm extends javax.swing.JPanel {
                     .addComponent(lblMaNV))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel34)
+                    .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel34)
+                        .addComponent(txtNgayTra))
                     .addGroup(jPanel19Layout.createSequentialGroup()
                         .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblMaHD)
                             .addComponent(jLabel33))
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNgayTra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(40, 40, 40)))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblTienTraLai)
@@ -748,6 +758,10 @@ public class TraHangFrm extends javax.swing.JPanel {
         ct.setDonGia((Float) tblCTHD.getValueAt(row, 2));
         String maHD = this.lblMaHD.getText();
         String maSP = this.lblMaSP.getText();
+        if((int) spnSoLuong.getValue() < 0){
+            JOptionPane.showMessageDialog(this, "số lượng không dược âm ");
+            return;
+        }
         List<ManageHoaDonChiTiet> sanPhams = ctService.AllMaSP(maHD, maSP);
         for (ManageHoaDonChiTiet sanPham : sanPhams) {
             if (sanPham.getSoLuong() < (int) this.spnSoLuong.getValue()) {
@@ -936,6 +950,6 @@ public class TraHangFrm extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaPTH;
     private javax.swing.JTextField txtMaSPTH;
     private javax.swing.JTextField txtMaSPTim;
-    private javax.swing.JTextField txtNgayTra;
+    private javax.swing.JLabel txtNgayTra;
     // End of variables declaration//GEN-END:variables
 }

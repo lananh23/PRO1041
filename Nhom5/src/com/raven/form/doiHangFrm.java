@@ -7,7 +7,9 @@ package com.raven.form;
 import DomainModels.HoaDon;
 import DomainModels.HoaDonChiTiet;
 import ServiceImpl.DoiHangServiceIml;
+import ServiceImpl.NguoiDungServiceImpl;
 import Services.DoiHangService;
+import Services.NguoiDungService;
 import ViewModels.ManageHoaDon;
 import ViewModels.ManageHoaDonChiTiet;
 import ViewModels.QLHoaDon;
@@ -21,13 +23,20 @@ public class doiHangFrm extends javax.swing.JPanel {
 
     DefaultTableModel dtm;
     private DoiHangService doiHangService = new DoiHangServiceIml();
+    private NguoiDungService ndService;
+    private DomainModels.dangNhap n;
     
     public doiHangFrm() {
         initComponents();
+        this.ndService = new NguoiDungServiceImpl();
         loadTableSP(doiHangService.listSP());
         loadTableHD(doiHangService.listHD());
+        this.clearForm();
     }
 
+    public void clearForm() {
+        this.lbMaNV.setText(ndService.findND(n.getCurrentLoginUsername()).getMaND());
+    }
     private void loadTableHDCT(ArrayList<ManageHoaDonChiTiet> list) {
         dtm = (DefaultTableModel) tblSPHD.getModel();
         dtm.setRowCount(0);
@@ -641,7 +650,7 @@ public class doiHangFrm extends javax.swing.JPanel {
             ArrayList<ManageHoaDon> hd = doiHangService.searchKH(maHD);
             for (ManageHoaDon h : hd) {
                 lbMaKH.setText(h.getMaKH());
-                lbMaNV.setText(h.getMaND());
+                //lbMaNV.setText(h.getMaND());
             }
         }
         }

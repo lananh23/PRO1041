@@ -133,7 +133,8 @@ public class NguoiDungRepository {
         }
         return list;
     }
-        public NguoiDung findDN(String maND) {
+
+    public NguoiDung findDN(String maND) {
         ArrayList<NguoiDung> list = new ArrayList<>();
         String query = "SELECT*FROM NguoiDung WHERE MaND = ?";
         try {
