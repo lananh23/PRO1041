@@ -27,7 +27,7 @@ public class ManageHoaDonChiTietService implements IManageHoaDonChiTiet{
         list = new ArrayList<>();
         List<HoaDonChiTiet> List_CH = this.hdRepo.AllSP(ma);
         for (HoaDonChiTiet o : List_CH) {
-            list.add(new ManageHoaDonChiTiet(o.getMaSP(), o.getSoLuong(), o.getGiaBan(), o.getThanhTien()));
+            list.add(new ManageHoaDonChiTiet(o.getMaHDCT(),o.getMaSP(),o.getSoLuong(), o.getGiaBan(), o.getThanhTien()));
         }
         return list;
     }

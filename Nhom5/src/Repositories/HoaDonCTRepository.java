@@ -53,17 +53,18 @@ public class HoaDonCTRepository {
         ArrayList<HoaDonChiTiet> list = new ArrayList<>();
         try {
             Connection conn = DBConnection.getConnection();
-            String query = "SELECT MaSP, SoLuong, DonGia, ThanhTien FROM HoaDonChiTiet WHERE MaHD = ? ";
+            String query = "SELECT MaHDCT, MaSP, SoLuong, DonGia, ThanhTien FROM HoaDonChiTiet WHERE MaHD = ? ";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, ma);
             ps.execute();
             ResultSet rs = ps.getResultSet();
             while (rs.next() == true) {
+                String maS = rs.getString("MaHDCT");
                 String maSP = rs.getString("MaSP");
                 int soLuong = rs.getInt("SoLuong");
                 float donGia = rs.getFloat("DonGia");
                 float thanhTien = rs.getFloat("ThanhTien");
-                HoaDonChiTiet sp = new HoaDonChiTiet(maSP, soLuong, donGia, thanhTien);
+                HoaDonChiTiet sp = new HoaDonChiTiet(maS, maSP, soLuong, donGia, thanhTien);
                 list.add(sp);
             }
         } catch (SQLException e) {

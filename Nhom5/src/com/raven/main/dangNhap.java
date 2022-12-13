@@ -26,11 +26,11 @@ public class dangNhap extends javax.swing.JFrame {
     dangNhapModel dn;
     dangNhapService dangNhapService;
     List<dangNhapModel> listDangNhaps;
-    dangNhapRepositories  repo;
-    NguoiDungRepository  rep;
-    NguoiDungService nd ;
+    dangNhapRepositories repo;
+    NguoiDungRepository rep;
+    NguoiDungService nd;
     DomainModels.dangNhap n;
-    
+
     public dangNhap() {
         initComponents();
         setLocationRelativeTo(null);
@@ -43,7 +43,6 @@ public class dangNhap extends javax.swing.JFrame {
         listDangNhaps = new ArrayList<>();
     }
 
-    
     void DangNhap() {
 
         String userName = txtUsername.getText();
@@ -74,6 +73,7 @@ public class dangNhap extends javax.swing.JFrame {
             this.dispose();
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
