@@ -33,7 +33,7 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
 
     private IManageSanPhamService sanPhamService;
     private IManageLoaiSanPhamService loaiSanPhamService;
-    private static Webcam webcam = null;
+    private static Webcam webcam;
     private WebcamPanel panel = null;
     private Executor executor = Executors.newSingleThreadExecutor(this);
 

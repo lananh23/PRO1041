@@ -7,8 +7,12 @@ package com.raven.form;
 import DomainModels.HoaDon;
 import DomainModels.HoaDonChiTiet;
 import ServiceImpl.DoiHangServiceIml;
+import ServiceImpl.ManageHoaDonChiTietService;
+import ServiceImpl.ManageSanPhamService;
 import ServiceImpl.NguoiDungServiceImpl;
 import Services.DoiHangService;
+import Services.IManageHoaDonChiTiet;
+import Services.IManageSanPhamService;
 import Services.NguoiDungService;
 import ViewModels.ManageHoaDon;
 import ViewModels.ManageHoaDonChiTiet;
@@ -23,13 +27,17 @@ public class doiHangFrm extends javax.swing.JPanel {
 
     DefaultTableModel dtm;
     private DoiHangService doiHangService = new DoiHangServiceIml();
+    private IManageSanPhamService banHangService;
     private NguoiDungService ndService;
     private DomainModels.dangNhap n;
-    
+    private IManageHoaDonChiTiet ctService;
+
     public doiHangFrm() {
         initComponents();
         this.ndService = new NguoiDungServiceImpl();
-        loadTableSP(doiHangService.listSP());
+        this.ctService = new ManageHoaDonChiTietService();
+        banHangService = new ManageSanPhamService();
+        loadTableSP();
         loadTableHD(doiHangService.listHD());
         this.clearForm();
     }
@@ -37,6 +45,7 @@ public class doiHangFrm extends javax.swing.JPanel {
     public void clearForm() {
         this.lbMaNV.setText(ndService.findND(n.getCurrentLoginUsername()).getMaND());
     }
+
     private void loadTableHDCT(ArrayList<ManageHoaDonChiTiet> list) {
         dtm = (DefaultTableModel) tblSPHD.getModel();
         dtm.setRowCount(0);
@@ -50,45 +59,53 @@ public class doiHangFrm extends javax.swing.JPanel {
             });
         }
     }
-    private void loadTableHD(ArrayList<ManageHoaDon> list){
+
+    private void loadTableHD(ArrayList<ManageHoaDon> list) {
         dtm = (DefaultTableModel) tblHoaDon.getModel();
         dtm.setRowCount(0);
-        for(ManageHoaDon hd : list){
+        for (ManageHoaDon hd : list) {
             dtm.addRow(new Object[]{
-                hd.getMaHD(), hd.getMaND(),  hd.getMaKH(),hd.getMaHDcu()
+                hd.getMaHD(), hd.getMaND(), hd.getMaKH(), hd.getMaHDcu()
             });
         }
     }
-    public HoaDonChiTiet get(){
+
+    public HoaDonChiTiet get() {
         HoaDonChiTiet hd = new HoaDonChiTiet();
         hd.setMaHDCT(lbMaHDCT.getText());
         hd.setMaSP(lbMaSP.getText());
-        hd.setSoLuong((int)spnSoLuong.getValue());
+        hd.setSoLuong((int) spnSoLuong.getValue());
         int row = tblSP.getSelectedRow();
         hd.setGiaBan(Float.valueOf(tblSP.getValueAt(row, 3).toString()));
-        hd.setThanhTien(Float.valueOf(Float.valueOf(tblSP.getValueAt(row, 3).toString())*(int)spnSoLuong.getValue()));
+        hd.setThanhTien(Float.valueOf(Float.valueOf(tblSP.getValueAt(row, 3).toString()) * (int) spnSoLuong.getValue()));
         return hd;
-    } 
-    public void addSP(ArrayList<ManageHoaDonChiTiet> sanPham ){
+    }
+
+    public void addSP(ArrayList<ManageHoaDonChiTiet> sanPham) {
         dtm = (DefaultTableModel) tblSPDoi.getModel();
         dtm.setRowCount(0);
-        for(ManageHoaDonChiTiet sp : sanPham){
+        for (ManageHoaDonChiTiet sp : sanPham) {
             dtm.addRow(new Object[]{sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
         }
     }
-    public void addSPDoi(ArrayList<ManageHoaDonChiTiet> sanPham){
+
+    public void addSPDoi(ArrayList<ManageHoaDonChiTiet> sanPham) {
         dtm = (DefaultTableModel) tblSPHD.getModel();
         dtm.setRowCount(0);
-        for(ManageHoaDonChiTiet sp : sanPham){
-            dtm.addRow(new Object[]{sp.getMaHDCT(),sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
+        for (ManageHoaDonChiTiet sp : sanPham) {
+            dtm.addRow(new Object[]{sp.getMaHDCT(), sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
         }
     }
-    private void loadTableSP(ArrayList<QLSanPham> list) {
+
+    private void loadTableSP() {
+        List<QLSanPham> spList = banHangService.ALL();
         dtm = (DefaultTableModel) tblSP.getModel();
+
         dtm.setRowCount(0);
-        for (QLSanPham sp : list) {
+        for (QLSanPham sanPham : spList) {
             dtm.addRow(new Object[]{
-                sp.getMaSP(), sp.getTenSP(), sp.getSoLuong(), sp.getGiaBan()
+                sanPham.getMaSP(), sanPham.getTenSP(), sanPham.getSoLuong(),
+                sanPham.getGiaBan()
             });
         }
     }
@@ -98,18 +115,20 @@ public class doiHangFrm extends javax.swing.JPanel {
         String maSP = this.tblSP.getValueAt(row, 0).toString();
         int sLg = (int) this.spnSoLuong.getValue();
         float giaBan = Float.valueOf(tblSP.getValueAt(row, 3).toString());
-        float thanhTien = giaBan* sLg;
+        float thanhTien = giaBan * sLg;
         ManageHoaDonChiTiet hdct = new ManageHoaDonChiTiet(maSP, sLg, giaBan, thanhTien);
         return hdct;
     }
-    public HoaDon getFormHD(){
+
+    public HoaDon getFormHD() {
         String maHD = txtMaHD.getText();
         String maHD_2 = txtMaHDNew.getText();
         String maKH = lbMaKH.getText();
         String maND = lbMaNV.getText();
-        HoaDon hd = new HoaDon(maHD,maHD_2, maKH, maND);
+        HoaDon hd = new HoaDon(maHD, maHD_2, maKH, maND);
         return hd;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -587,7 +606,7 @@ public class doiHangFrm extends javax.swing.JPanel {
         // TODO add your handling code here:
         ManageHoaDonChiTiet ct = this.getFormHDCT();
         HoaDon hd = this.getFormHD();
-        if(ct == null || hd.equals("") || ct.equals("") || hd == null){
+        if (ct == null || hd.equals("") || ct.equals("") || hd == null) {
             return;
         }
         String maHD_2 = txtMaHDNew.getText();
@@ -596,7 +615,7 @@ public class doiHangFrm extends javax.swing.JPanel {
         doiHangService.searchKH(maHD);
 
         loadTableHD(doiHangService.listHD());
-        if(doiHangService.doiHD(hd, maHD)){
+        if (doiHangService.doiHD(hd, maHD)) {
             loadTableHD(doiHangService.listHD());
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
@@ -610,7 +629,7 @@ public class doiHangFrm extends javax.swing.JPanel {
         ManageHoaDonChiTiet hdctView = new ManageHoaDonChiTiet();
         int row = tblSP.getSelectedRow();
         hdctView.setMaHD(txtMaHD.getText());
-        hdctView.setMaSP((String)tblSP.getValueAt(row, 0));
+        hdctView.setMaSP((String) tblSP.getValueAt(row, 0));
         hdctView.setSoLuong((int) spnSoLuong.getValue());
         hdctView.setGiaBan((float) tblSP.getValueAt(row, 3));
         ArrayList<ManageHoaDonChiTiet> list = new ArrayList<>();
@@ -620,11 +639,11 @@ public class doiHangFrm extends javax.swing.JPanel {
         String maHDCT = lbMaHDCT.getText();
         HoaDonChiTiet ct = get();
         lbMaHDCT.setText(lbMaHDCT.getText());
-        if(doiHangService.doi(ct, maHDCT)){
+        if (doiHangService.doi(ct, maHDCT)) {
             loadTableHDCT(doiHangService.search(maHD));
         }
         float tongTien = 0;
-        for(ManageHoaDonChiTiet hdc : list){
+        for (ManageHoaDonChiTiet hdc : list) {
             tongTien = (float) (tongTien + ct.getThanhTien());
             lbTongTien.setText("" + tongTien);
         }
@@ -637,22 +656,22 @@ public class doiHangFrm extends javax.swing.JPanel {
         if (maHD == null || maHD.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã hoá đơn có sản phẩm đổi");
         } else {
-            List<ManageHoaDonChiTiet> hdct = doiHangService.search(maHD);
+            List<ManageHoaDonChiTiet> hdct = ctService.AllMa(maHD);
             if (hdct.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không tồn tại mã hoá đơn này");
             } else {
                 dtm = (DefaultTableModel) tblSPHD.getModel();
                 dtm.setRowCount(0);
                 for (ManageHoaDonChiTiet ct : hdct) {
-                    dtm.addRow(new Object[]{ct.getMaHDCT(),ct.getMaSP(), ct.getSoLuong(),
+                    dtm.addRow(new Object[]{ct.getMaHDCT(), ct.getMaSP(), ct.getSoLuong(),
                         ct.getGiaBan(), ct.getThanhTien()});
+                }
+                ArrayList<ManageHoaDon> hd = doiHangService.searchKH(maHD);
+                for (ManageHoaDon h : hd) {
+                    lbMaKH.setText(h.getMaKH());
+                    //lbMaNV.setText(h.getMaND());
+                }
             }
-            ArrayList<ManageHoaDon> hd = doiHangService.searchKH(maHD);
-            for (ManageHoaDon h : hd) {
-                lbMaKH.setText(h.getMaKH());
-                //lbMaNV.setText(h.getMaND());
-            }
-        }
         }
     }//GEN-LAST:event_btnTimHDActionPerformed
 
@@ -691,16 +710,16 @@ public class doiHangFrm extends javax.swing.JPanel {
     private void btnHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHDActionPerformed
         // TODO add your handling code here:
         String maHD_2 = txtTimMaHD.getText();
-        if(maHD_2 == null || maHD_2.isEmpty()){
+        if (maHD_2 == null || maHD_2.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã hoá đơn cần tìm");
-        }else{
+        } else {
             List<ManageHoaDon> hdd = doiHangService.listHDD(maHD_2);
-            if(hdd.isEmpty()){
+            if (hdd.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không tồn tại mã hoá đơn đổi");
-            }else{
+            } else {
                 dtm = (DefaultTableModel) tblHoaDon.getModel();
                 dtm.setRowCount(0);
-                for(ManageHoaDon hd : hdd){
+                for (ManageHoaDon hd : hdd) {
                     dtm.addRow(new Object[]{hd.getMaHD(), hd.getMaHDcu(), hd.getMaKH(), hd.getMaND()});
                 }
             }
@@ -710,14 +729,14 @@ public class doiHangFrm extends javax.swing.JPanel {
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
         int row = tblHoaDon.getSelectedRow();
-        if(row == -1){
+        if (row == -1) {
             return;
         }
         String maHD = tblHoaDon.getValueAt(row, 0).toString();
         dtm = (DefaultTableModel) tblHDCT.getModel();
         dtm.setRowCount(0);
-        for(ManageHoaDonChiTiet sp : doiHangService.search(maHD)){
-            dtm.addRow( new Object[]{sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
+        for (ManageHoaDonChiTiet sp : doiHangService.search(maHD)) {
+            dtm.addRow(new Object[]{sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
         }
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
@@ -727,16 +746,16 @@ public class doiHangFrm extends javax.swing.JPanel {
         int row = tblHoaDon.getSelectedRow();
         String maHD_2 = tblHoaDon.getValueAt(row, 1).toString();
         List<ManageHoaDon> hdd = doiHangService.listHDD(maHD_2);
-        if(hdd.isEmpty()){
+        if (hdd.isEmpty()) {
             return;
-        }else{
+        } else {
             List<ManageHoaDonChiTiet> sanPham = doiHangService.searchSP_2(maSPD);
-            if(sanPham.isEmpty()){
+            if (sanPham.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Không tồn tại mã sản phẩm này trong hoá đơn đổi");
-            }else{
+            } else {
                 dtm = (DefaultTableModel) tblHDCT.getModel();
                 dtm.setRowCount(0);
-                for(ManageHoaDonChiTiet sp : sanPham){
+                for (ManageHoaDonChiTiet sp : sanPham) {
                     dtm.addRow(new Object[]{sp.getMaSP(), sp.getSoLuong(), sp.getGiaBan(), sp.getThanhTien()});
                 }
             }

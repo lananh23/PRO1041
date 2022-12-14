@@ -29,7 +29,7 @@ public class ManageSanPhamService implements IManageSanPhamService {
 
     @Override
     public void insert(QLSanPham sp) {
-        SanPham s = new SanPham(sp.getMaSP(), sp.getMaLSP(), sp.getTenSP(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getHanSuDung(), sp.getMaQR());
+        SanPham s = new SanPham(sp.getMaSP(), sp.getMaLSP(), sp.getTenSP(), sp.getSoLuong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getHanSuDung());
         this.SanPhamRepo.insert(s);
     }
 

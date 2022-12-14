@@ -41,7 +41,7 @@ public class SanPhamRepository implements ISanPhamRepository {
     public void insert(SanPham sp) {
         try {
             Connection conn = DBConnection.getConnection();
-            String query = "INSERT INTO SanPham (MaSP, MaLSP, TenSP, SoLuong, GiaNhap, GiaBan, HanSuDung, MaQR) VALUES(?,?,?,?,?,?,?,?)";
+            String query = "INSERT INTO SanPham (MaSP, MaLSP, TenSP, SoLuong, GiaNhap, GiaBan, HanSuDung) VALUES(?,?,?,?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setString(1, sp.getMaSP());
             ps.setString(2, sp.getMaLSP());

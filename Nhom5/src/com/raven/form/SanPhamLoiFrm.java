@@ -13,17 +13,19 @@ import Services.IManageSanPhamService;
 import ViewModels.ManageSanPhamLoi;
 import ViewModels.QLLoaiSanPham;
 import ViewModels.QLSanPham;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 public class SanPhamLoiFrm extends javax.swing.JPanel {
 
     private IManageSanPhamLoiService sanPhamLoiService;
     private IManageSanPhamService sanPhamService;
     private IManageLoaiSanPhamService loaiSanPhamService;
-    
+
     public SanPhamLoiFrm() {
         initComponents();
         this.sanPhamLoiService = new ManageSanPhamLoiService();
@@ -43,7 +45,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
             sp1[i] = dsSP1.get(i).getMaSP();
         }
         cbbLocSPL.setModel(new DefaultComboBoxModel(sp1));
-        
+
         this.loadTableSP();
         this.loadTableSPL();
         this.clearForm();
@@ -96,6 +98,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
         ManageSanPhamLoi s = new ManageSanPhamLoi(maSPL, maSP, tenSP, loi);
         return s;
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -502,7 +505,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
             return;
         } else {
             JOptionPane.showMessageDialog(this, "tìm thấy sản phẩm");
-            return ;
+            return;
         }
     }//GEN-LAST:event_btnLocActionPerformed
 
@@ -510,6 +513,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
         String maSP = this.txtMaSP.getText();
         List<QLSanPham> ds = this.sanPhamService.ALL();
         int check = 0;
+        int i = 0;
         if (maSP.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Không được để trống mã sản phẩm");
             return;
@@ -518,13 +522,18 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
                 if (sp.getMaSP().equalsIgnoreCase(txtMaSP.getText())) {
                     check++;
                     this.lblMaSP.setText(sp.getMaSP());
-                    this.lblTen.setText(sp.getMaSP());
+                    this.lblTen.setText(sp.getTenSP());
+                    for (i = 0; i < this.sanPhamService.ALL().size() - 1; i++) {
+                        if (tblSP.getValueAt(i, 0).equals(txtMaSP.getText())) {
+                            this.tblSP.setRowSelectionInterval(i, i);
+                        }
+                    }
                     JOptionPane.showMessageDialog(this, "Tìm thấy sản phẩm");
-                    this.tblSPL.getSelectedRow();
                     return;
                 }
             }
         }
+
         if (check == 0) {
             this.clearForm();
             JOptionPane.showMessageDialog(this, "Không tìm thấy sản phẩm");
@@ -558,7 +567,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
             return;
         } else {
             JOptionPane.showMessageDialog(this, "tìm thấy sản phẩm");
-            return ;
+            return;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
