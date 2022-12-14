@@ -79,9 +79,9 @@
                                           </Group>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="txtMaSP" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                                               <Component id="cboMaLSP" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                                               <Component id="txtTenSP" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                                              <Component id="txtMaSP" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
@@ -299,8 +299,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="txtMaSP">
-        </Component>
         <Component class="javax.swing.JComboBox" name="cboMaLSP">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -405,6 +403,14 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnQRActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txtMaSP">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="--"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

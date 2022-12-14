@@ -8,7 +8,10 @@ import DomainModels.NguoiDung;
 import Services.NguoiDungService;
 import ServiceImpl.NguoiDungServiceImpl;
 import ViewModels.NguoiDungViewModel;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import javax.swing.DefaultComboBoxModel;
@@ -23,6 +26,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
         initComponents();
          loadTable(nguoiDungService.listND());
         List<NguoiDungViewModel> nd = nguoiDungService.listND();
+        this.clearForm();
     }
 
     public void loadTable(ArrayList<NguoiDungViewModel> list) {
@@ -42,9 +46,53 @@ public class NhanVienFrm extends javax.swing.JPanel {
                 nd.getChucVu()});
         }
     }
+    public static Date toDate(String s) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyy-mm-dd");
+        Date d = null;
+        try {
+            d = sdf.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return d;
+    }
 
     public NguoiDung getForm() {
         NguoiDung nd = new NguoiDung();
+        if (txtMa.getText() == "" || txtMa.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã của người dùng");
+        } else if (txtHo.getText() == "" || txtHo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập họ của người dùng");
+        }else if(txtTenDem.getText() == "" || txtTenDem.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên đệm của người dùng");
+        }else if(txtTen.getText() == "" || txtTen.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên của người dùng");
+        
+        }else if(txtNgaySinh.getText() == "" || txtNgaySinh.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập ngày sinh của người dùng");
+        }else if(txtDiaChi.getText() == "" || txtDiaChi.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ của người dùng");
+        }else if(txtSDT.getText() == "" || txtSDT.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại của người dùng");
+        }else if(txtEmail.getText() == "" || txtEmail.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập email của người dùng");
+        }else if(!txtEmail.getText().matches("\\w+@\\w+(\\.\\w+){1,2}")){
+            JOptionPane.showMessageDialog(this, "Email không đúng định dạng");
+        }else if(txtSDT.getText().matches("0\\d{9}")){
+            JOptionPane.showMessageDialog(this, "SDT không đúng định dạng");
+        }
+        String ngSinh = this.txtNgaySinh.getText().trim();
+        SimpleDateFormat sdf = new SimpleDateFormat();
+        sdf.applyPattern("yyyy-mm-dd");
+        Date d;
+        try {
+            d = sdf.parse(ngSinh);
+        } catch (ParseException e) {
+            JOptionPane.showMessageDialog(this, "Sai định dạng ngày sinh");
+            return null;
+        }
         nd.setMaND(txtMa.getText());
         nd.setHo(txtHo.getText());
         nd.setTenDem(txtTenDem.getText());
@@ -54,7 +102,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
         } else {
             nd.setGioiTinh("Nữ");
         }
-        nd.setNgaySinh(txtNgaySinh.getText());
+        nd.setNgaySinh(ngSinh);
         nd.setDiaChi(txtDiaChi.getText());
         nd.setSdt(txtSDT.getText());
         nd.seteMail(txtEmail.getText());
@@ -63,7 +111,8 @@ public class NhanVienFrm extends javax.swing.JPanel {
     }
 
     public void clearForm() {
-        txtMa.setText("");
+        String a = this.nguoiDungService.listND().size() + 1 + "";
+        this.txtMa.setText("NV" + a);
         txtHo.setText("");
         txtTenDem.setText("");
         txtTen.setText("");
@@ -88,7 +137,6 @@ public class NhanVienFrm extends javax.swing.JPanel {
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
         jLabel71 = new javax.swing.JLabel();
-        txtMa = new javax.swing.JTextField();
         txtHo = new javax.swing.JTextField();
         txtTenDem = new javax.swing.JTextField();
         txtTen = new javax.swing.JTextField();
@@ -108,6 +156,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
         txtEmail = new javax.swing.JTextField();
         cboChucVu_2 = new javax.swing.JComboBox<>();
         btnTimKiem = new javax.swing.JButton();
+        txtMa = new javax.swing.JLabel();
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -196,6 +245,9 @@ public class NhanVienFrm extends javax.swing.JPanel {
             }
         });
 
+        txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMa.setText("--");
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -218,9 +270,11 @@ public class NhanVienFrm extends javax.swing.JPanel {
                                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(txtTen)
                                             .addComponent(txtTenDem, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(txtMa)
                                             .addComponent(txtHo)
-                                            .addComponent(txtNgaySinh)))
+                                            .addComponent(txtNgaySinh)
+                                            .addGroup(jPanel11Layout.createSequentialGroup()
+                                                .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))))
                                     .addGroup(jPanel11Layout.createSequentialGroup()
                                         .addGap(13, 13, 13)
                                         .addComponent(cboChucVu_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -273,7 +327,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
                     .addComponent(jLabel66)
                     .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtMa))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel67)
@@ -501,7 +555,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtHo;
-    private javax.swing.JTextField txtMa;
+    private javax.swing.JLabel txtMa;
     private javax.swing.JTextField txtNgaySinh;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTen;

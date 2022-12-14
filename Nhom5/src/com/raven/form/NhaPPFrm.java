@@ -18,6 +18,7 @@ public class NhaPPFrm extends javax.swing.JPanel {
     private final NhaPhanPhoiSV NPPSV;
     DefaultTableModel model;
     DefaultComboBoxModel cbb, cbb1;
+
     public NhaPPFrm() {
         initComponents();
         cbb = new DefaultComboBoxModel();
@@ -28,10 +29,10 @@ public class NhaPPFrm extends javax.swing.JPanel {
         model.setRowCount(0);
         cbx();
         loadtable();
+        this.clearForm();
     }
 
     void loadtable() {
-        try {
             List<QLNPP> ql = NPPSV.findALL();
             if (ql == null) {
                 JOptionPane.showMessageDialog(null, "lỗi");
@@ -47,10 +48,6 @@ public class NhaPPFrm extends javax.swing.JPanel {
                     q.getMaSP(),
                     q.getTrangThai() == 1 ? "Còn cung cấp" : "ko còn cung cấp"});
             }
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "lỗi");
-            return;
-        }
 
     }
 
@@ -60,21 +57,21 @@ public class NhaPPFrm extends javax.swing.JPanel {
         cbxTT.setModel(cbb);
     }
 
-
     void clearForm() {
-        this.txtMa.setText("");
+        String a = NPPSV.findALL().size() + 1 + "";
+        this.txtMa.setText("NPP" + a);
         this.cbxMaSP.setSelectedIndex(0);
         this.txtTen.setText("");
         this.txtDiaChi.setText("");
         this.txtSDT.setText("");
         this.cbxTT.setSelectedIndex(0);
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        txtMa = new javax.swing.JTextField();
         jLabel63 = new javax.swing.JLabel();
         btnThem = new javax.swing.JButton();
         txtSDT = new javax.swing.JTextField();
@@ -95,6 +92,7 @@ public class NhaPPFrm extends javax.swing.JPanel {
         cbxMaSP = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jLabel62 = new javax.swing.JLabel();
+        txtMa = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -184,6 +182,9 @@ public class NhaPPFrm extends javax.swing.JPanel {
         jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel62.setText("Quản lý nhà phân phối");
 
+        txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMa.setText("--");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -205,8 +206,8 @@ public class NhaPPFrm extends javax.swing.JPanel {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(158, 158, 158)
+                                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel1)
                                         .addComponent(jLabel3)
@@ -239,11 +240,11 @@ public class NhaPPFrm extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(239, 239, 239)
                         .addComponent(jLabel62)))
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addContainerGap(124, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 719, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -254,8 +255,8 @@ public class NhaPPFrm extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel63)
-                    .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel65))
+                    .addComponent(jLabel65)
+                    .addComponent(txtMa))
                 .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -394,7 +395,7 @@ public class NhaPPFrm extends javax.swing.JPanel {
                     n.getSdt(),
                     n.getMaSP(),
                     n.getTrangThai() == 1 ? "Còn cung cấp" : "ko còn cung cấp"});
-        }
+            }
         }
 
         if (k.isEmpty()) {
@@ -422,9 +423,9 @@ public class NhaPPFrm extends javax.swing.JPanel {
             int tt = cbxTT.getSelectedIndex();
             String dangSDT = "0\\d{9,10}";
             if (Ma.trim().isEmpty()
-                || Ten.trim().isEmpty()
-                || DiaChi.trim().isEmpty()
-                || Sdt.trim().isEmpty()) {
+                    || Ten.trim().isEmpty()
+                    || DiaChi.trim().isEmpty()
+                    || Sdt.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "ko đc để trống");
                 return;
             }
@@ -461,14 +462,14 @@ public class NhaPPFrm extends javax.swing.JPanel {
                     n.getSdt(),
                     n.getMaSP(),
                     n.getTrangThai() == 1 ? "Còn cung cấp" : "ko còn cung cấp"});
-        }
-        if (k.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Thất bại");
-            return;
-        } else {
-            JOptionPane.showMessageDialog(null, "đã hiện npp muốn tìm");
-            return;
-        }
+            }
+            if (k.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Thất bại");
+                return;
+            } else {
+                JOptionPane.showMessageDialog(null, "đã hiện npp muốn tìm");
+                return;
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -501,7 +502,7 @@ public class NhaPPFrm extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JTable tblNPP;
     private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtMa;
+    private javax.swing.JLabel txtMa;
     private javax.swing.JTextField txtSDT;
     private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables

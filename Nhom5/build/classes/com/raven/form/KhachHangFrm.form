@@ -77,9 +77,9 @@
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtMa" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                               <Component id="txtTen" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                               <Component id="txtDiaChi" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
+                              <Component id="txtMa" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="-2" pref="126" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -115,8 +115,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtMa" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="txtNgaySinh" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtMa" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -271,8 +271,6 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JTextField" name="txtMa">
-        </Component>
         <Component class="javax.swing.JTextField" name="txtTen">
         </Component>
         <Component class="javax.swing.JTextField" name="txtDiaChi">
@@ -300,6 +298,14 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="txtMa">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="--"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

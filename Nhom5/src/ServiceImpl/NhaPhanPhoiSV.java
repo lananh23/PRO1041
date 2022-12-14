@@ -27,7 +27,7 @@ public class NhaPhanPhoiSV implements NhaPhanPhoiIF{
         this.NPPRP = new NhaPhanPhoiRP();
     }
 
-    public List<QLNPP> findALL() throws SQLException {
+    public List<QLNPP> findALL(){
         List<NhaPhanPhoi> npp = NPPRP.select();
         List<QLNPP> list = new ArrayList<>();
         for (NhaPhanPhoi n : npp) {

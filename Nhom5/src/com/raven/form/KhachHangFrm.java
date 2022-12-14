@@ -24,10 +24,10 @@ public class KhachHangFrm extends javax.swing.JPanel {
         model = (DefaultTableModel) tblKH.getModel();
         model.setRowCount(0);
         loadtable();
+        this.clearForm();
     }
 
     void loadtable() {
-        try {
             List<QLKH> ql = khSV.findALL();
             if (ql == null) {
                 JOptionPane.showMessageDialog(null, "lỗi");
@@ -45,15 +45,12 @@ public class KhachHangFrm extends javax.swing.JPanel {
                 });
             }
 
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Lỗi");
-            return;
-        }
 
     }
 
     void clearForm() {
-        this.txtMa.setText("");
+        String a = this.khSV.findALL().size() + 1 + "";
+        this.txtMa.setText("KH" + a);
         this.txtTen.setText("");
         this.txtDiaChi.setText("");
         this.txtSDT.setText("");
@@ -80,7 +77,6 @@ public class KhachHangFrm extends javax.swing.JPanel {
         btnTK = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKH = new javax.swing.JTable();
-        txtMa = new javax.swing.JTextField();
         txtTen = new javax.swing.JTextField();
         txtDiaChi = new javax.swing.JTextField();
         txtNgaySinh = new javax.swing.JTextField();
@@ -89,6 +85,7 @@ public class KhachHangFrm extends javax.swing.JPanel {
         rdbNam = new javax.swing.JRadioButton();
         rdbNu = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
+        txtMa = new javax.swing.JLabel();
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Quản lý khách hàng");
@@ -161,6 +158,9 @@ public class KhachHangFrm extends javax.swing.JPanel {
             }
         });
 
+        txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMa.setText("--");
+
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
         jPanel9Layout.setHorizontalGroup(
@@ -197,9 +197,9 @@ public class KhachHangFrm extends javax.swing.JPanel {
                         .addComponent(jButton1))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(126, 126, 126)
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
@@ -227,8 +227,8 @@ public class KhachHangFrm extends javax.swing.JPanel {
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(jLabel8)
-                            .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMa))
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel9Layout.createSequentialGroup()
                                 .addGap(24, 24, 24)
@@ -482,7 +482,7 @@ public class KhachHangFrm extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdbNu;
     private javax.swing.JTable tblKH;
     private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtMa;
+    private javax.swing.JLabel txtMa;
     private javax.swing.JTextField txtNgayDki;
     private javax.swing.JTextField txtNgaySinh;
     private javax.swing.JTextField txtSDT;

@@ -20,29 +20,33 @@ import javax.swing.JOptionPane;
  */
 public class KhachHangRP {
 
-    public List<KhachHang> select() throws SQLException {
+    public List<KhachHang> select(){
         ArrayList<KhachHang> k = new ArrayList<>();
-        Connection con = DBConnection.getConnection();
-        String sql = "select * from KhachHang";
-        PreparedStatement st = con.prepareStatement(sql);
-        ResultSet rs = st.executeQuery();
-        while (rs.next()) {
-            String Ma = rs.getString("MaKH");
-            String Ten = rs.getString("TenKH");
-            String GioiTinh = rs.getString("GioiTinh");
-            String DiaChi = rs.getString("DiaChi");
-            String NgaySinh = rs.getString("NgaySinh");
-            String Sdt = rs.getString("Sdt");
-            String NgayDki = rs.getString("NgayDangKy");
-            KhachHang kh = new KhachHang();
-            kh.setMaKH(Ma);
-            kh.setTenKH(Ten);
-            kh.setGioiTinh(GioiTinh);
-            kh.setDiaChi(DiaChi);
-            kh.setNgaySinh(NgaySinh);
-            kh.setSdt(Sdt);
-            kh.setNgayDki(NgayDki);
-            k.add(kh);
+        try {
+            Connection con = DBConnection.getConnection();
+            String sql = "select * from KhachHang";
+            PreparedStatement st = con.prepareStatement(sql);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                String Ma = rs.getString("MaKH");
+                String Ten = rs.getString("TenKH");
+                String GioiTinh = rs.getString("GioiTinh");
+                String DiaChi = rs.getString("DiaChi");
+                String NgaySinh = rs.getString("NgaySinh");
+                String Sdt = rs.getString("Sdt");
+                String NgayDki = rs.getString("NgayDangKy");
+                KhachHang kh = new KhachHang();
+                kh.setMaKH(Ma);
+                kh.setTenKH(Ten);
+                kh.setGioiTinh(GioiTinh);
+                kh.setDiaChi(DiaChi);
+                kh.setNgaySinh(NgaySinh);
+                kh.setSdt(Sdt);
+                kh.setNgayDki(NgayDki);
+                k.add(kh);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return k;
     }
@@ -158,12 +162,12 @@ public class KhachHangRP {
         }
         return false;
     }
-    
-    public List<KhachHang> tim(String Sdt){
+
+    public List<KhachHang> tim(String Sdt) {
         ArrayList<KhachHang> k = new ArrayList<>();
         try {
             Connection con = DBConnection.getConnection();
-                String sql = "Select MaKH from KhachHang where SDT=?";
+            String sql = "Select MaKH from KhachHang where SDT=?";
             PreparedStatement st = con.prepareStatement(sql);
             st.setString(1, Sdt);
             ResultSet rs = st.executeQuery();

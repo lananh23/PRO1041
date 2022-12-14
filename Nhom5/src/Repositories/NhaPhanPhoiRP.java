@@ -19,8 +19,9 @@ import java.util.List;
  */
 public class NhaPhanPhoiRP {
 
-    public List<NhaPhanPhoi> select() throws SQLException {
+    public List<NhaPhanPhoi> select(){
         ArrayList<NhaPhanPhoi> n1 = new ArrayList<>();
+        try{
         Connection con = DBConnection.getConnection();
         String sql = "select * from NhaPhanPhoi";
         PreparedStatement st = con.prepareStatement(sql);
@@ -40,6 +41,9 @@ public class NhaPhanPhoiRP {
             n.setMaSP(MaSP);
             n.setTrangThai(TrangThai);
             n1.add(n);
+        }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return n1;
     }

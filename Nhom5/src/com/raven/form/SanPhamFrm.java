@@ -113,6 +113,27 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         String tenSP = this.txtTenSP.getText().trim();
         String soLuongStr = this.txtSoluong.getText().trim();
         int soLuong;
+        if(txtMaSP == null || txtMaSP.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã sản phẩm");
+        }else if(txtTenSP == null || txtTenSP.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên sản phẩm");
+        }else if(txtSoluong == null || txtSoluong.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên sản phẩm");
+        }else if(txtSoluong.getText().matches("[a-z][A-Z]")){
+            JOptionPane.showMessageDialog(this, "Số lượng sai định dạng");
+        }else if(txtGiaNhap == null || txtGiaNhap.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá nhập");
+        }else if(txtGiaNhap.getText().matches("[a-z][A-Z]")){
+            JOptionPane.showMessageDialog(this, "Giá nhập sai định dạng");
+        }else if(txtGiaBan == null || txtGiaBan.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập giá bán");
+        }else if(txtGiaBan.getText().matches("[a-z][A-Z]")){
+            JOptionPane.showMessageDialog(this, "Giá bán sai định dạng");
+        }else if(txtHanSuDung == null || txtHanSuDung.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập hạn sử dụng");
+        }else if(!txtHanSuDung.getText().matches("\"dd/MM/yyyy\"")){
+            JOptionPane.showMessageDialog(this, "Hạn sử dụng phải là ngày tháng năm");
+        }
         try {
             soLuong = Integer.parseInt(soLuongStr);
             if (soLuong < 0) {
@@ -149,7 +170,7 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         try {
             d = sdf.parse(hanSuDung);
         } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Sai định dạng ngày sinh");
+            JOptionPane.showMessageDialog(this, "Sai định dạng hạn sử dụng");
             return null;
         }
 
@@ -180,7 +201,6 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         btnSua = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         tbl_SP = new javax.swing.JTable();
-        txtMaSP = new javax.swing.JTextField();
         cboMaLSP = new javax.swing.JComboBox<>();
         txtTenSP = new javax.swing.JTextField();
         txtSoluong = new javax.swing.JTextField();
@@ -194,6 +214,7 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         jPanel2 = new javax.swing.JPanel();
         btnHuy = new javax.swing.JButton();
         btnQR = new javax.swing.JButton();
+        txtMaSP = new javax.swing.JLabel();
 
         jPanel4.setPreferredSize(new java.awt.Dimension(841, 650));
 
@@ -304,6 +325,9 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
             }
         });
 
+        txtMaSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMaSP.setText("--");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -336,9 +360,9 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
                                                 .addComponent(jLabel21)))
                                         .addGap(18, 18, 18)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(cboMaLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGap(4, 4, 4)
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -381,7 +405,7 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel21)
-                            .addComponent(txtMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMaSP))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel50)
@@ -472,15 +496,15 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
-        String maSP = this.txtMaSP.getText();
+        String ma = JOptionPane.showInputDialog(null, "vui lòng nhập mã SP muốn tìm");
         List<QLSanPham> ds = this.sanPhamService.ALL();
         int check = 0;
-        if (maSP.trim().length() == 0) {
+        if (ma.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Không được để trống mã sản phẩm");
             return;
         } else {
             for (QLSanPham sp : ds) {
-                if (sp.getMaSP().equalsIgnoreCase(txtMaSP.getText())) {
+                if (sp.getMaSP().equalsIgnoreCase(ma)) {
                     check++;
                     this.txtMaSP.setText(sp.getMaSP());
                     this.cboMaLSP.setSelectedItem(sp.getMaLSP());
@@ -490,6 +514,11 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
                     this.txtGiaBan.setText(String.valueOf(sp.getGiaBan()));
                     this.txtHanSuDung.setText(String.valueOf(sp.getHanSuDung()));
 
+                    for (int i = 0; i < this.sanPhamService.ALL().size() - 1; i++) {
+                        if (tbl_SP.getValueAt(i, 0).equals(ma)) {
+                            this.tbl_SP.setRowSelectionInterval(i, i);
+                        }
+                    }
                     JOptionPane.showMessageDialog(this, "Tìm thấy sản phẩm");
                     //this.tblSPL.getSelectedRow();
                     return;
@@ -658,7 +687,7 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
     private javax.swing.JTextField txtGiaBan;
     private javax.swing.JTextField txtGiaNhap;
     private javax.swing.JTextField txtHanSuDung;
-    private javax.swing.JTextField txtMaSP;
+    private javax.swing.JLabel txtMaSP;
     private javax.swing.JTextField txtSoluong;
     private javax.swing.JTextField txtTenSP;
     // End of variables declaration//GEN-END:variables

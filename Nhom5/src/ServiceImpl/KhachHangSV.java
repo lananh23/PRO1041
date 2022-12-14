@@ -27,7 +27,7 @@ public class KhachHangSV implements KhachHangIF {
         this.khRP = new KhachHangRP();
     }
 
-    public List<QLKH> findALL() throws SQLException {
+    public List<QLKH> findALL(){
         List<KhachHang> kh = khRP.select();
         List<QLKH> list = new ArrayList<>();
         for (KhachHang khachHang : kh) {

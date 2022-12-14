@@ -20,6 +20,7 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         initComponents();
         this.loaiSanPhamService = new ManageLoaiSanPhamService();
         this.loadTable();
+        this.clearForm();
     }
 
     public void loadTable() {
@@ -36,7 +37,8 @@ public class LoaiSPFrm extends javax.swing.JPanel {
     }
 
     public void clearForm() {
-        this.txtMaLSP.setText("");
+        String a = loaiSanPhamService.ALL().size() + 1 + "";
+        this.txtMaLSP.setText("LSP" + a);
         this.txtTenLSP.setText("");
         this.txtMoTa.setText("");
     }
@@ -64,10 +66,10 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         btnTimKiem = new javax.swing.JButton();
         jScrollPane11 = new javax.swing.JScrollPane();
         tbl_LSP = new javax.swing.JTable();
-        txtMaLSP = new javax.swing.JTextField();
         txtTenLSP = new javax.swing.JTextField();
         jScrollPane12 = new javax.swing.JScrollPane();
         txtMoTa = new javax.swing.JTextArea();
+        txtMaLSP = new javax.swing.JLabel();
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel58.setText("Quản lý loại sản phẩm");
@@ -125,6 +127,9 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         txtMoTa.setRows(5);
         jScrollPane12.setViewportView(txtMoTa);
 
+        txtMaLSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMaLSP.setText("--");
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -138,15 +143,13 @@ public class LoaiSPFrm extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(119, 119, 119)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel60)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(txtTenLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel6Layout.createSequentialGroup()
-                                        .addComponent(jLabel59)
-                                        .addGap(51, 51, 51)
-                                        .addComponent(txtMaLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel60)
+                                    .addComponent(jLabel59))
+                                .addGap(49, 49, 49)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTenLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtMaLSP, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE))
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -180,17 +183,15 @@ public class LoaiSPFrm extends javax.swing.JPanel {
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addComponent(jLabel61)
-                                .addGap(28, 28, 28))
+                                .addGap(54, 54, 54))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel59)
-                                    .addComponent(txtMaLSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGap(26, 26, 26)
+                                    .addComponent(txtMaLSP))
+                                .addGap(26, 26, 26)))
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtTenLSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel60))
-                        .addGap(18, 18, 18))
+                            .addComponent(jLabel60)))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(27, 27, 27)
                         .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -199,8 +200,8 @@ public class LoaiSPFrm extends javax.swing.JPanel {
                             .addComponent(btnTimKiem)
                             .addComponent(btnXoa)
                             .addComponent(btnCapNhat)
-                            .addComponent(btnThem))
-                        .addGap(27, 27, 27)))
+                            .addComponent(btnThem))))
+                .addGap(27, 27, 27)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
         );
@@ -318,7 +319,7 @@ public class LoaiSPFrm extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JTable tbl_LSP;
-    private javax.swing.JTextField txtMaLSP;
+    private javax.swing.JLabel txtMaLSP;
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtTenLSP;
     // End of variables declaration//GEN-END:variables

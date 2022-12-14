@@ -82,7 +82,9 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
 //        List<ManageSanPhamLoi> list = this.sanPhamLoiService.ALL();
 //        String[] splits = list.split("-", 3);
 //        this.lblMaSPL.setText(list.get((list.size() - 1)).getMaSPL() + 1);
-        this.txtMaSPL.setText("");
+        String a = this.sanPhamLoiService.ALL().size() + 1 + "";
+        this.txtMaSPL.setText("SPL" + a);
+        //this.txtMaSPL.setText("");
         this.lblMaSP.setText("-");
         this.lblTen.setText("-");
         this.txtLyDoLoi.setText("");
@@ -119,10 +121,10 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
         jLabel76 = new javax.swing.JLabel();
         lblMaSP = new javax.swing.JLabel();
         cbbLocSPL = new javax.swing.JComboBox<>();
-        txtMaSPL = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         lblTen = new javax.swing.JLabel();
         btnLoc = new javax.swing.JButton();
+        txtMaSPL = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
         btnTimKiemSP = new javax.swing.JButton();
@@ -219,6 +221,9 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
             }
         });
 
+        txtMaSPL.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        txtMaSPL.setText("--");
+
         javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
         jPanel23.setLayout(jPanel23Layout);
         jPanel23Layout.setHorizontalGroup(
@@ -233,14 +238,14 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
                         .addGap(37, 37, 37)
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel23Layout.createSequentialGroup()
+                                .addComponent(lblMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jLabel73)
                                 .addGap(29, 29, 29))
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(lblMaSP, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel23Layout.createSequentialGroup()
-                                .addComponent(txtMaSPL, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                                .addComponent(txtMaSPL, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel1)
                                 .addGap(37, 37, 37)))
@@ -253,7 +258,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
                         .addComponent(cbbLocSPL, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnLoc)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                         .addComponent(btnThem)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnCapNhat)
@@ -272,7 +277,7 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
                         .addContainerGap()
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel76)
-                            .addComponent(txtMaSPL, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtMaSPL))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel74)
@@ -456,19 +461,24 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
     }//GEN-LAST:event_tblSPLMouseClicked
 
     private void btnTimKiemSPLActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemSPLActionPerformed
-        String maSPL = this.txtMaSPL.getText();
+        String ma = JOptionPane.showInputDialog(null, "vui lòng nhập mã SPL muốn tìm");
         List<ManageSanPhamLoi> ds = this.sanPhamLoiService.ALL();
         int check = 0;
-        if (maSPL.trim().length() == 0) {
+        if (ma.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Không được để trống mã sản phẩm lỗi");
             return;
         } else {
             for (ManageSanPhamLoi sp : ds) {
-                if (sp.getMaSPL().equalsIgnoreCase(txtMaSPL.getText())) {
+                if (sp.getMaSPL().equalsIgnoreCase(ma)) {
                     check++;
                     this.txtMaSPL.setText(sp.getMaSPL());
                     this.lblMaSP.setText(sp.getMaSP());
                     this.txtLyDoLoi.setText(sp.getLyDoLoi());
+                    for (int i = 0; i < this.sanPhamService.ALL().size() - 1; i++) {
+                        if (tblSPL.getValueAt(i, 0).equals(ma)) {
+                            this.tblSPL.setRowSelectionInterval(i, i);
+                        }
+                    }
                     JOptionPane.showMessageDialog(this, "Tìm thấy sản phẩm lỗi");
                     this.tblSPL.getSelectedRow();
                     return;
@@ -598,6 +608,6 @@ public class SanPhamLoiFrm extends javax.swing.JPanel {
     private javax.swing.JTable tblSPL;
     private javax.swing.JTextField txtLyDoLoi;
     private javax.swing.JTextField txtMaSP;
-    private javax.swing.JTextField txtMaSPL;
+    private javax.swing.JLabel txtMaSPL;
     // End of variables declaration//GEN-END:variables
 }
