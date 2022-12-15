@@ -44,6 +44,16 @@ public class ManageHoaDonService implements IManageHoaDon{
     }
 
     @Override
+    public List<ManageHoaDon> AllCho1(String ma) {
+        list = new ArrayList<>();
+        List<HoaDon> List_CH = this.hdRepo.AllCho1(ma);
+        for (HoaDon o : List_CH) {
+            list.add(new ManageHoaDon(o.getMaHD()));
+        }
+        return list;
+    }
+
+    @Override
     public List<ManageHoaDon> AllHD() {
         list = new ArrayList<>();
         List<HoaDon> List_CH = this.hdRepo.AllHD();
@@ -98,5 +108,9 @@ public class ManageHoaDonService implements IManageHoaDon{
     @Override
     public void updateGia(String maHD,double gia){
         this.hdRepo.updateGia(maHD, gia);
+    }
+    @Override
+    public void update(String maHD,double gia){
+        this.hdRepo.update(maHD, gia);
     }
 }

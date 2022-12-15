@@ -236,6 +236,25 @@ public class HoaDonRepository {
         return list;
     }
 
+    public List<HoaDon> AllCho1(String ma) {
+        ArrayList<HoaDon> list = new ArrayList<>();
+        try {
+            Connection conn = DBConnection.getConnection();
+            String query = "SELECT MaHD FROM HoaDon WHERE MaHD = ? AND TrangThai =0 ";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, ma);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next() == true) {
+                String maHD = rs.getString("MaHD");
+                HoaDon sp = new HoaDon(maHD);
+                list.add(sp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public void Ma() {
         try {
             Connection conn = DBConnection.getConnection();
@@ -275,6 +294,18 @@ public class HoaDonRepository {
         try {
             Connection conn = DBConnection.getConnection();
             String query = "UPDATE HoaDon SET TongTien = TongTien - ?   WHERE MaHD = ? ";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setDouble(1, gia);
+            ps.setString(2, maHD);
+            ps.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void update(String maHD, double gia){
+        try {
+            Connection conn = DBConnection.getConnection();
+            String query = "UPDATE HoaDon SET TongTien=?, TrangThai = 1   WHERE MaHD = ? ";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setDouble(1, gia);
             ps.setString(2, maHD);

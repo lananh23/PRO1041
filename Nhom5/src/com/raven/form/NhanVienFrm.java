@@ -21,12 +21,14 @@ public class NhanVienFrm extends javax.swing.JPanel {
 
     private DefaultTableModel dtm;
     private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
     
     public NhanVienFrm() {
         initComponents();
          loadTable(nguoiDungService.listND());
         List<NguoiDungViewModel> nd = nguoiDungService.listND();
         this.clearForm();
+        this.PQ();
     }
 
     public void loadTable(ArrayList<NguoiDungViewModel> list) {
@@ -44,6 +46,26 @@ public class NhanVienFrm extends javax.swing.JPanel {
                 nd.getSdt(),
                 nd.geteMail(),
                 nd.getChucVu()});
+        }
+    }
+    public void setStatus(boolean insertable){ 
+        //txtMaCD.setEditable(insertable); 
+        btnClearForm.setEnabled(!insertable); 
+        btnSua.setEnabled(!insertable); 
+        btnThem.setEnabled(!insertable); 
+        btnTimKiem.setEnabled(!insertable); 
+        btnXoa.setEnabled(!insertable); 
+        btnHT.setEnabled(!insertable);  
+//        btnFisrt.setEnabled(!insertable && first); 
+//        btnPrev.setEnabled(!insertable && first); 
+//        btnLast.setEnabled(!insertable && last); 
+//        btnNext.setEnabled(!insertable && last); 
+    }    
+    public void PQ(){
+        if(nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")){
+            setStatus(false);
+        }else{
+            setStatus(true);
         }
     }
     public static Date toDate(String s) throws ParseException {
@@ -159,7 +181,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
         cboChucVu_2 = new javax.swing.JComboBox<>();
         btnTimKiem = new javax.swing.JButton();
         txtMa = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnHT = new javax.swing.JButton();
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -253,10 +275,10 @@ public class NhanVienFrm extends javax.swing.JPanel {
         txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMa.setText("--");
 
-        jButton1.setText("Hiển thị");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnHT.setText("Hiển thị");
+        btnHT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnHTActionPerformed(evt);
             }
         });
 
@@ -306,7 +328,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
                                                 .addComponent(cboChucVu, 0, 231, Short.MAX_VALUE)
                                                 .addComponent(txtDiaChi)
                                                 .addComponent(txtEmail))
-                                            .addComponent(jButton1)
+                                            .addComponent(btnHT)
                                             .addGroup(jPanel11Layout.createSequentialGroup()
                                                 .addComponent(rdoNam)
                                                 .addGap(73, 73, 73)
@@ -371,7 +393,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
                     .addComponent(jLabel16)
                     .addComponent(rdoNu))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnHT)
                 .addGap(4, 4, 4)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
@@ -547,17 +569,18 @@ public class NhanVienFrm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnHTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHTActionPerformed
         if (tblNguoiDung.getRowCount() < nguoiDungService.listND().size()) {
             loadTable(nguoiDungService.listND());
         } else {
             JOptionPane.showMessageDialog(this, "Đã hiển thị danh sách nhân viên");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnHTActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClearForm;
+    private javax.swing.JButton btnHT;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
@@ -565,7 +588,6 @@ public class NhanVienFrm extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboChucVu;
     private javax.swing.JComboBox<String> cboChucVu_2;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

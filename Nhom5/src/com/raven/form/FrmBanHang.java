@@ -1126,10 +1126,15 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnThanhToanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThanhToanActionPerformed
+        List<ManageHoaDon> listHD = this.hdService.AllCho1(this.lblHD.getText());
         if (this.cbxTT.getSelectedIndex() == 0) {
             JOptionPane.showMessageDialog(this, "Khách hàng chưa thanh toán vui lòng thanh toán");
             return;
         } else {
+            if (listHD.size() > 0) {
+                this.hdService.update(this.lblHD.getText(), Double.valueOf(this.lbThanhTien.getText()));
+                return;
+            }
             ManageHoaDon hd = this.getFormDataHD();
             if (hd == null) {
                 return;
@@ -1270,7 +1275,7 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
         if (row == -1) {
             return;
         }
-        
+
         String maHDCT = tblDSCho.getValueAt(row, 0).toString();
         String maSP = tblDSCho.getValueAt(row, 1).toString();
         int so = (int) spnSoLuong.getValue();
@@ -1299,12 +1304,12 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
         this.clearHDCT();
         String a = ctService.getAll().size() + 1 + r + "";
         this.lblMaHDCT.setText("CT" + a);
-        float thanhTien  =0;
+        float thanhTien = 0;
         for (ManageHoaDonChiTiet ct : list) {
             thanhTien = (float) (thanhTien + ct.getThanhTien());
             lbThanhTien.setText("" + thanhTien);
         }
-        
+
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -1315,7 +1320,7 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
         }
         models.removeRow(row);
         list.remove(row);
-        float thanhTien  = 0;
+        float thanhTien = 0;
         for (ManageHoaDonChiTiet ct : list) {
             thanhTien = (float) (thanhTien + ct.getThanhTien());
             lbThanhTien.setText("" + thanhTien);

@@ -12,8 +12,10 @@ public interface IManageHoaDon {
     public List<ManageHoaDon> TimMaHD( String ma) ;
     public List<ManageHoaDon> AllMa1( String ma) ;
     public List<ManageHoaDon> AllCho() ;
+    public List<ManageHoaDon> AllCho1(String ma) ;
     public void Ma() ;
     public void deleteMa(String ma);
     public void delete();
     public void updateGia(String maHD,double gia);
+    public void update(String maHD,double gia);
 }
