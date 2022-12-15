@@ -1,5 +1,7 @@
 package com.raven.main;
 
+import ServiceImpl.NguoiDungServiceImpl;
+import Services.NguoiDungService;
 import com.raven.component.Header;
 import com.raven.component.Menu;
 import com.raven.event.EventMenuSelected;
@@ -37,11 +39,13 @@ public class Main extends javax.swing.JFrame {
     //private Header header;
     private MainForm main;
     private Animator animator;
+    private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
 
     public Main() {
         initComponents();
         init();
-        
+
     }
 
     private void init() {
@@ -56,38 +60,46 @@ public class Main extends javax.swing.JFrame {
             public void menuSelected(int menuIndex, int subMenuIndex) {
                 System.out.println("Menu Index : " + menuIndex + " SubMenu Index " + subMenuIndex);
                 if (menuIndex == 0) {
-                       main.showForm(new FrmBanHang());
-                }else if(menuIndex == 1){
+                    main.showForm(new FrmBanHang());
+                } else if (menuIndex == 1) {
                     main.showForm(new doiHangFrm());
-                }else if(menuIndex == 2){
+                } else if (menuIndex == 2) {
                     main.showForm(new TraHangFrm());
-                }else if(menuIndex == 3){
-                    //main.showForm(new SanPhamFrm());
+                } else if (menuIndex == 3) {
                     if (subMenuIndex == 0) {
                         main.showForm(new LoaiSPFrm());
                     } else if (subMenuIndex == 1) {
                         main.showForm(new SanPhamFrm());
                     }
-                }else if(menuIndex == 4){
+                } else if (menuIndex == 4) {
                     main.showForm(new SanPhamLoiFrm());
-                }else if(menuIndex == 5){
-                    main.showForm(new NhanVienFrm());
-                }else if(menuIndex == 6){
+                } else if (menuIndex == 5) {
+                    if (nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")) {
+                        main.showForm(new NhanVienFrm());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Bạn không được phép truy cập");
+                    }
+                } else if (menuIndex == 6) {
                     main.showForm(new KhachHangFrm());
-                }else if(menuIndex == 7){
+                } else if (menuIndex == 7) {
                     main.showForm(new NhaPPFrm());
-                //}
-                }else if(menuIndex == 8){
-                    main.showForm(new doanhThuFrm());
-                }else if(menuIndex == 9){
+                } else if (menuIndex == 8) {
+                    if (nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")) {
+                        main.showForm(new doanhThuFrm());
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Bạn không được phép truy cập");
+                    }
+                } else if (menuIndex == 9) {
                     main.showForm(new taiKhoanFrm());
-                }else if(menuIndex == 10){
+                } else if (menuIndex == 10) {
                     main.showForm(new doiMatKhau());
-                }else if(menuIndex == 11){
-//                    JOptionPane.showConfirmDialog(this, "Bạn có muốn thoát khỏi ứng dụng không? ");
-//                    if()
-                    dispose();
-                    //main.showForm(new FrmBanHang());
+                } else if (menuIndex == 11) {
+                    int xn = JOptionPane.showConfirmDialog(null, "Bạn muốn đăng xuất chứ");
+                    if (xn == JOptionPane.YES_OPTION) {
+                        dispose();
+                        new dangNhap().setVisible(true);
+                    }
+
                 }
             }
         });
@@ -165,7 +177,7 @@ public class Main extends javax.swing.JFrame {
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1076, Short.MAX_VALUE)
+            .addGap(0, 1120, Short.MAX_VALUE)
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +188,7 @@ public class Main extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 1076, Short.MAX_VALUE)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 1120, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

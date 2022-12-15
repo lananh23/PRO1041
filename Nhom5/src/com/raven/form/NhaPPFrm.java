@@ -5,8 +5,11 @@
 package com.raven.form;
 
 import DomainModels.NhaPhanPhoi;
+import ServiceImpl.ManageSanPhamService;
 import ServiceImpl.NhaPhanPhoiSV;
+import Services.IManageSanPhamService;
 import ViewModels.QLNPP;
+import ViewModels.QLSanPham;
 import java.sql.SQLException;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
@@ -18,9 +21,11 @@ public class NhaPPFrm extends javax.swing.JPanel {
     private final NhaPhanPhoiSV NPPSV;
     DefaultTableModel model;
     DefaultComboBoxModel cbb, cbb1;
+    private IManageSanPhamService spSer;
 
     public NhaPPFrm() {
         initComponents();
+        this.spSer = new ManageSanPhamService();
         cbb = new DefaultComboBoxModel();
         cbb1 = new DefaultComboBoxModel();
         NPPSV = new NhaPhanPhoiSV();
@@ -30,6 +35,13 @@ public class NhaPPFrm extends javax.swing.JPanel {
         cbx();
         loadtable();
         this.clearForm();
+        List<QLSanPham> dsSP = spSer.ALL();
+        this.cbxMaSP.getModel();
+        String[] sp = new String[dsSP.size()];
+        for (int i = 0; i < dsSP.size(); i++) {
+            sp[i] = dsSP.get(i).getMaSP();
+        }
+        cbxMaSP.setModel(new DefaultComboBoxModel(sp));
     }
 
     void loadtable() {
