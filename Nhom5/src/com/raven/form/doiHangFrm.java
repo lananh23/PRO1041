@@ -8,9 +8,11 @@ import DomainModels.HoaDon;
 import DomainModels.HoaDonChiTiet;
 import ServiceImpl.DoiHangServiceIml;
 import ServiceImpl.ManageHoaDonChiTietService;
+import ServiceImpl.ManageHoaDonService;
 import ServiceImpl.ManageSanPhamService;
 import ServiceImpl.NguoiDungServiceImpl;
 import Services.DoiHangService;
+import Services.IManageHoaDon;
 import Services.IManageHoaDonChiTiet;
 import Services.IManageSanPhamService;
 import Services.NguoiDungService;
@@ -31,12 +33,14 @@ public class doiHangFrm extends javax.swing.JPanel {
     private NguoiDungService ndService;
     private DomainModels.dangNhap n;
     private IManageHoaDonChiTiet ctService;
+    private IManageHoaDon hdService;
 
     public doiHangFrm() {
         initComponents();
         this.ndService = new NguoiDungServiceImpl();
         this.ctService = new ManageHoaDonChiTietService();
         banHangService = new ManageSanPhamService();
+        this.hdService = new ManageHoaDonService();
         loadTableSP();
         loadTableHD(doiHangService.listHD());
         this.clearForm();
@@ -44,6 +48,8 @@ public class doiHangFrm extends javax.swing.JPanel {
 
     public void clearForm() {
         this.lbMaNV.setText(ndService.findND(n.getCurrentLoginUsername()).getMaND());
+        String a = hdService.AllHD().size() + 1 + "";
+        this.txtMaHDNew.setText("HD" + a);
     }
 
     private void loadTableHDCT(ArrayList<ManageHoaDonChiTiet> list) {
@@ -593,7 +599,6 @@ public class doiHangFrm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSPMouseClicked
-        // TODO add your handling code here:
         int row = tblSP.getSelectedRow();
         if (row == -1) {
             return;
@@ -666,6 +671,7 @@ public class doiHangFrm extends javax.swing.JPanel {
                     dtm.addRow(new Object[]{ct.getMaHDCT(), ct.getMaSP(), ct.getSoLuong(),
                         ct.getGiaBan(), ct.getThanhTien()});
                 }
+                this.lbMaHDCT.setText(maHD);
                 ArrayList<ManageHoaDon> hd = doiHangService.searchKH(maHD);
                 for (ManageHoaDon h : hd) {
                     lbMaKH.setText(h.getMaKH());

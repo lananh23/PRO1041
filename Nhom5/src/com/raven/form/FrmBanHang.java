@@ -82,7 +82,6 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
         this.clearHDCT();
     }
 
-
     public void clear() {
         String a = hdService.AllHD().size() + 1 + "";
         this.lblHD.setText("HD" + a);
@@ -1263,24 +1262,62 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
     }//GEN-LAST:event_btnLuuTamActionPerformed
 
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        DefaultTableModel models = (DefaultTableModel) tblDSCho.getModel();
+        ManageHoaDonChiTiet chiTietHoaDonViewModel = new ManageHoaDonChiTiet();
         int row = this.tblDSCho.getSelectedRow();
         if (row == -1) {
             return;
         }
-        String ma = this.tblDSCho.getValueAt(row, 1).toString();
-        String so = this.spnSoLuong.getValue().toString();
-        int s = Integer.parseInt(so);
-        //this.ctService.updateSL(ma, s);
-//        this.load
+        
+        String maHDCT = tblDSCho.getValueAt(row, 0).toString();
+        String maSP = tblDSCho.getValueAt(row, 1).toString();
+        int so = (int) spnSoLuong.getValue();
+        float gia = (Float) tblDSCho.getValueAt(row, 3);
+
+        if (so < 0) {
+            JOptionPane.showMessageDialog(this, "số lượng không dược âm ");
+            return;
+        }
+        List<QLSanPham> s = spService.getByCode(maSP);
+        for (QLSanPham sanPham : s) {
+            if (sanPham.getSoLuong() < so) {
+                JOptionPane.showMessageDialog(this, "Trong kho không đủ số lượng cần mua");
+                return;
+            }
+        }
+        models.removeRow(row);
+        list.remove(row);
+        chiTietHoaDonViewModel.setMaHDCT(maHDCT);
+        chiTietHoaDonViewModel.setMaSP(maSP);
+        chiTietHoaDonViewModel.setSoLuong(so);
+        chiTietHoaDonViewModel.setGiaBan(gia);
+        list.add(chiTietHoaDonViewModel);
+        addSP(list);
+        int r = tblDSCho.getRowCount();
+        this.clearHDCT();
+        String a = ctService.getAll().size() + 1 + r + "";
+        this.lblMaHDCT.setText("CT" + a);
+        float thanhTien  =0;
+        for (ManageHoaDonChiTiet ct : list) {
+            thanhTien = (float) (thanhTien + ct.getThanhTien());
+            lbThanhTien.setText("" + thanhTien);
+        }
+        
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        DefaultTableModel models = (DefaultTableModel) tblDSCho.getModel();
         int row = this.tblDSCho.getSelectedRow();
         if (row == -1) {
             return;
         }
-        String ma = this.tblDSCho.getValueAt(row, 1).toString();
-        this.ctService.deleteMaHD(ma);
+        models.removeRow(row);
+        list.remove(row);
+        float thanhTien  = 0;
+        for (ManageHoaDonChiTiet ct : list) {
+            thanhTien = (float) (thanhTien + ct.getThanhTien());
+            lbThanhTien.setText("" + thanhTien);
+        }
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void spnSoLuongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_spnSoLuongMouseClicked
@@ -1424,9 +1461,11 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
 
     private void tblDSChoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSChoMouseClicked
         int row = this.tblDSCho.getSelectedRow();
+        String maHD = this.tblDSCho.getValueAt(row, 0).toString();
         String ma = this.tblDSCho.getValueAt(row, 1).toString();
-        String so = this.tblDSCho.getValueAt(row, 3).toString();
+        String so = this.tblDSCho.getValueAt(row, 2).toString();
         int s = Integer.parseInt(so);
+        this.lblMaHDCT.setText(maHD);
         this.lbMaSP.setText(ma);
         this.spnSoLuong.setValue(s);
     }//GEN-LAST:event_tblDSChoMouseClicked
