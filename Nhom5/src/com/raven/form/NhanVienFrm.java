@@ -80,7 +80,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập email của người dùng");
         }else if(!txtEmail.getText().matches("\\w+@\\w+(\\.\\w+){1,2}")){
             JOptionPane.showMessageDialog(this, "Email không đúng định dạng");
-        }else if(txtSDT.getText().matches("0\\d{9}")){
+        }else if(!txtSDT.getText().matches("0\\d{9}")){
             JOptionPane.showMessageDialog(this, "SDT không đúng định dạng");
         }
         String ngSinh = this.txtNgaySinh.getText().trim();
@@ -121,11 +121,13 @@ public class NhanVienFrm extends javax.swing.JPanel {
         txtSDT.setText("");
         txtEmail.setText("");
         cboChucVu.setSelectedIndex(0);
+        rdoNam.setSelected(true);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel11 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
@@ -157,6 +159,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
         cboChucVu_2 = new javax.swing.JComboBox<>();
         btnTimKiem = new javax.swing.JButton();
         txtMa = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -182,8 +185,10 @@ public class NhanVienFrm extends javax.swing.JPanel {
 
         cboChucVu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Quản lý", "Nhân viên" }));
 
+        buttonGroup1.add(rdoNam);
         rdoNam.setText("Nam ");
 
+        buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
 
         btnThem.setText("Thêm");
@@ -248,6 +253,13 @@ public class NhanVienFrm extends javax.swing.JPanel {
         txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMa.setText("--");
 
+        jButton1.setText("Hiển thị");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -289,15 +301,16 @@ public class NhanVienFrm extends javax.swing.JPanel {
                                             .addComponent(jLabel16))
                                         .addGap(37, 37, 37)
                                         .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel11Layout.createSequentialGroup()
-                                                .addComponent(rdoNu)
-                                                .addGap(76, 76, 76)
-                                                .addComponent(rdoNam))
                                             .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                                 .addComponent(txtSDT)
                                                 .addComponent(cboChucVu, 0, 231, Short.MAX_VALUE)
                                                 .addComponent(txtDiaChi)
-                                                .addComponent(txtEmail))))
+                                                .addComponent(txtEmail))
+                                            .addComponent(jButton1)
+                                            .addGroup(jPanel11Layout.createSequentialGroup()
+                                                .addComponent(rdoNam)
+                                                .addGap(73, 73, 73)
+                                                .addComponent(rdoNu))))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                                         .addComponent(btnThem)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -307,8 +320,7 @@ public class NhanVienFrm extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(btnClearForm)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(9, 9, 9))))
+                                        .addComponent(btnTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel11Layout.createSequentialGroup()
                                 .addGap(0, 21, Short.MAX_VALUE)
                                 .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 776, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -355,10 +367,12 @@ public class NhanVienFrm extends javax.swing.JPanel {
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel72)
                     .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rdoNu)
                     .addComponent(rdoNam)
-                    .addComponent(jLabel16))
-                .addGap(40, 40, 40)
+                    .addComponent(jLabel16)
+                    .addComponent(rdoNu))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addGap(4, 4, 4)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem)
                     .addComponent(btnSua)
@@ -414,11 +428,12 @@ public class NhanVienFrm extends javax.swing.JPanel {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
         String maND = txtMa.getText();
-        NguoiDung nguoiDung = getForm();
+        
         int row = tblNguoiDung.getSelectedRow();
         if(row == -1){
             JOptionPane.showMessageDialog(this, "Bạn chưa chọn dòng muốn sửa thông tin");
         }else{
+            NguoiDung nguoiDung = getForm();
             if (nguoiDungService.sua(nguoiDung, maND)) {
                 loadTable(nguoiDungService.listND());
                 JOptionPane.showMessageDialog(this, "Bạn đã sửa thành công");
@@ -498,14 +513,14 @@ public class NhanVienFrm extends javax.swing.JPanel {
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-        String maND = this.txtMa.getText();
+        String ma = JOptionPane.showInputDialog(null, "vui lòng nhập mã nhân viên muốn tìm");
         List<NguoiDungViewModel> list = this.nguoiDungService.listND();
         int index = 0;
-        if (maND.trim().length() == 0) {
+        if (ma.trim().length() == 0) {
             JOptionPane.showMessageDialog(this, "Không tìm được người dùng nếu nó trống");
         } else {
             for (NguoiDungViewModel nd : list) {
-                if (nd.getMaND().equals(txtMa.getText())) {
+                if (nd.getMaND().equals(ma)) {
                     index++;
                     this.txtMa.setText(nd.getMaND());
                     this.txtHo.setText(nd.getHo());
@@ -521,11 +536,24 @@ public class NhanVienFrm extends javax.swing.JPanel {
                     } else {
                         this.rdoNu.setSelected(true);
                     }
+                    for (int i = 0; i < this.nguoiDungService.listND().size() - 1; i++) {
+                        if (tblNguoiDung.getValueAt(i, 0).equals(ma)) {
+                            this.tblNguoiDung.setRowSelectionInterval(i, i);
+                        }
+                    }
                     JOptionPane.showMessageDialog(this, "Đã tìm được thông tin người dùng");
                 }
             }
         }
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (tblNguoiDung.getRowCount() < nguoiDungService.listND().size()) {
+            loadTable(nguoiDungService.listND());
+        } else {
+            JOptionPane.showMessageDialog(this, "Đã hiển thị danh sách nhân viên");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -534,8 +562,10 @@ public class NhanVienFrm extends javax.swing.JPanel {
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboChucVu;
     private javax.swing.JComboBox<String> cboChucVu_2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;

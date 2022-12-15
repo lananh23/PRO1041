@@ -87,7 +87,7 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
         String a = hdService.AllHD().size() + 1 + "";
         this.lblHD.setText("HD" + a);
         this.txtMaKH.setText("");
-        this.lbl.setText(ndService.findND(n.getCurrentLoginUsername()).getTen());
+        //this.lbl.setText(ndService.findND(n.getCurrentLoginUsername()).getTen());
         this.lblMaNV.setText("");
         this.txtNgayTao.setText(java.time.LocalDate.now().toString());
         this.lbThanhTien.setText("--");

@@ -75,7 +75,7 @@ public class NguoiDungRepository {
         try {
             Connection con = DBConnection.getConnection();
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setObject(10, nguoiDung.getMaND());
+            ps.setObject(10, maND);
             ps.setObject(1, nguoiDung.getHo());
             ps.setObject(2, nguoiDung.getTenDem());
             ps.setObject(3, nguoiDung.getTen());
