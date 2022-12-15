@@ -657,6 +657,15 @@ public class doiHangFrm extends javax.swing.JPanel {
     private void btnTimHDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimHDActionPerformed
         // TODO add your handling code here:
         String maHD = txtMaHD.getText();
+        if (maHD == null || maHD.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã hoá đơn có sản phẩm đổi");
+        }
+        List<ManageHoaDon> ds1 = this.hdService.TimMaHD(maHD);
+        if(ds1.size() > 0){
+            JOptionPane.showMessageDialog(this, "HD đã được đổi 1 lần không được phép đổi lần 2");
+            this.txtMaHD.setText("");
+            return;
+        }
         int row = tblHoaDon.getSelectedRow();
         if (maHD == null || maHD.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã hoá đơn có sản phẩm đổi");
@@ -671,7 +680,6 @@ public class doiHangFrm extends javax.swing.JPanel {
                     dtm.addRow(new Object[]{ct.getMaHDCT(), ct.getMaSP(), ct.getSoLuong(),
                         ct.getGiaBan(), ct.getThanhTien()});
                 }
-                this.lbMaHDCT.setText(maHD);
                 ArrayList<ManageHoaDon> hd = doiHangService.searchKH(maHD);
                 for (ManageHoaDon h : hd) {
                     lbMaKH.setText(h.getMaKH());
@@ -706,7 +714,7 @@ public class doiHangFrm extends javax.swing.JPanel {
     private void tblSPHDMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSPHDMouseClicked
         // TODO add your handling code here:
         int row = tblSPHD.getSelectedRow();
-        lbMaHDCT.setText(tblSPHD.getValueAt(row, 0).toString());
+        //lbMaHDCT.setText(tblSPHD.getValueAt(row, 0).toString());
     }//GEN-LAST:event_tblSPHDMouseClicked
 
     private void txtMaSPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMaSPActionPerformed

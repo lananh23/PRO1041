@@ -36,6 +36,15 @@ public class ManagePhieuTraHangService implements IManagePhieuTraHangService{
         return list;
     }
     @Override
+    public List<ManagePhieuTraHang> TimHD(String ma) {
+        list = new ArrayList<>();
+        List<PhieuTraHang> List_CH = this.PhieuTraHangRepo.TimMaHD(ma);
+        for (PhieuTraHang o : List_CH) {
+            list.add(new ManagePhieuTraHang(o.getMaHD(), o.getMaKH(), o.getMaND(), o.getMaPTH(), o.getNgayTra(), o.getTienTraLaiKhach(), o.getLyDoTra()));
+        }
+        return list;
+    }
+    @Override
     public void insert(ManagePhieuTraHang p) {
         PhieuTraHang s = new PhieuTraHang (p.getMaHD(), p.getMaKH(), p.getMaND(), p.getMaPTH(), p.getNgayTra(), p.getTienTraLaiKhach(), p.getLyDoTra());
         this.PhieuTraHangRepo.insert(s);

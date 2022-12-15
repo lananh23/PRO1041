@@ -78,6 +78,31 @@ public class PhieuTraHangRepository {
         }
     }
 
+    public List<PhieuTraHang> TimMaHD(String ma) {
+        ArrayList<PhieuTraHang> list = new ArrayList<>();
+        try {
+            Connection conn = DBConnection.getConnection();
+            String query = "SELECT * FROM PhieuTraHang WHERE MaHD = ?";
+            PreparedStatement ps = conn.prepareStatement(query);
+            ps.setString(1, ma);
+            ps.execute();
+            ResultSet rs = ps.getResultSet();
+            while (rs.next() == true) {
+                String maPTH = rs.getString("MaPTH");
+                String maHD = rs.getString("MaHD");
+                String maND = rs.getString("MaND");
+                String maKH = rs.getString("MaKH");
+                Date ngTao = rs.getDate("NgayTra");
+                float tongTien = rs.getFloat("TienTraLaiKhach");
+                String lyDo = rs.getString("LyDoTra");
+                PhieuTraHang sp = new PhieuTraHang(maHD, maKH, maND, maPTH, ngTao, tongTien, lyDo);
+                list.add(sp);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
     public void update(String ma, PhieuTraHang p) {
         try {
             Connection conn = DBConnection.getConnection();

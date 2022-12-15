@@ -1141,9 +1141,9 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
                 a.setMaHDCT(tblDSCho.getValueAt(row, 0).toString());
                 a.setMaHD(this.lblHD.getText());
                 a.setMaSP(tblDSCho.getValueAt(row, 1).toString());
-                a.setSoLuong((int) tblDSCho.getValueAt(row, 3));
-                a.setGiaBan((Float) tblDSCho.getValueAt(row, 4));
-                a.setThanhTien((Float) tblDSCho.getValueAt(row, 5));
+                a.setSoLuong((int) tblDSCho.getValueAt(row, 2));
+                a.setGiaBan((Float) tblDSCho.getValueAt(row, 3));
+                a.setThanhTien((Float) tblDSCho.getValueAt(row, 4));
                 row++;
                 listHDCT.add(a);
             }
@@ -1157,6 +1157,7 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
             this.clear();
             this.clearHDCT();
             this.loadDS();
+            this.list.removeAll(list);
             JOptionPane.showMessageDialog(this, "thành công");
         }
     }//GEN-LAST:event_btnThanhToanActionPerformed
@@ -1203,9 +1204,9 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
                 a.setMaHDCT((String) tblDSCho.getValueAt(row, 0));
                 a.setMaHD(this.lblHD.getText());
                 a.setMaSP((String) tblDSCho.getValueAt(row, 1));
-                a.setSoLuong((int) tblDSCho.getValueAt(row, 3));
-                a.setGiaBan((Float) tblDSCho.getValueAt(row, 4));
-                a.setThanhTien((Float) tblDSCho.getValueAt(row, 5));
+                a.setSoLuong((int) tblDSCho.getValueAt(row, 2));
+                a.setGiaBan((Float) tblDSCho.getValueAt(row, 3));
+                a.setThanhTien((Float) tblDSCho.getValueAt(row, 4));
                 row++;
                 listHDCT.add(a);
             }
@@ -1219,6 +1220,7 @@ public class FrmBanHang extends javax.swing.JPanel implements Runnable, ThreadFa
             this.clear();
             this.clearHDCT();
             this.loadDS();
+            this.list.removeAll(list);
             JOptionPane.showMessageDialog(this, "Hóa đơn đã được thêm vào hàng chờ");
         }
     }//GEN-LAST:event_btnTaoActionPerformed

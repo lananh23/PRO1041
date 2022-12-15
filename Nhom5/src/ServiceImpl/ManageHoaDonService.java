@@ -73,6 +73,15 @@ public class ManageHoaDonService implements IManageHoaDon{
         return list;
     }
     @Override
+    public List<ManageHoaDon> TimMaHD(String ma) {
+        list = new ArrayList<>();
+        List<HoaDon> List_CH = this.hdRepo.TimMaHD(ma);
+        for (HoaDon o : List_CH) {
+            list.add(new ManageHoaDon(o.getMaHD(), o.getMaND(), o.getMaKH() ,o.getNgayTao(),o.getTongTien(), o.getTrangThai()));
+        }
+        return list;
+    }
+    @Override
     public List<ManageHoaDon> AllMa1(String ma) {
         list = new ArrayList<>();
         List<HoaDon> List_CH = this.hdRepo.AllMa(ma);
