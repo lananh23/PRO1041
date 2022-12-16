@@ -6,8 +6,10 @@ package com.raven.form;
 
 import DomainModels.NhaPhanPhoi;
 import ServiceImpl.ManageSanPhamService;
+import ServiceImpl.NguoiDungServiceImpl;
 import ServiceImpl.NhaPhanPhoiSV;
 import Services.IManageSanPhamService;
+import Services.NguoiDungService;
 import ViewModels.QLNPP;
 import ViewModels.QLSanPham;
 import java.sql.SQLException;
@@ -22,9 +24,12 @@ public class NhaPPFrm extends javax.swing.JPanel {
     DefaultTableModel model;
     DefaultComboBoxModel cbb, cbb1;
     private IManageSanPhamService spSer;
+    private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
 
     public NhaPPFrm() {
         initComponents();
+        PQ();
         this.spSer = new ManageSanPhamService();
         cbb = new DefaultComboBoxModel();
         cbb1 = new DefaultComboBoxModel();
@@ -44,6 +49,27 @@ public class NhaPPFrm extends javax.swing.JPanel {
         cbxMaSP.setModel(new DefaultComboBoxModel(sp));
     }
 
+    public void setStatus(boolean insertable){ 
+        //txtMaCD.setEditable(insertable); 
+        btnLoc.setEnabled(!insertable); 
+        btnSua.setEnabled(!insertable); 
+        btnThem.setEnabled(!insertable); 
+        btnTK.setEnabled(!insertable); 
+        btnXoa.setEnabled(!insertable); 
+        btnHT.setEnabled(!insertable);  
+        btnCl.setEnabled(!insertable);  
+//        btnFisrt.setEnabled(!insertable && first); 
+//        btnPrev.setEnabled(!insertable && first); 
+//        btnLast.setEnabled(!insertable && last); 
+//        btnNext.setEnabled(!insertable && last); 
+    }    
+    public void PQ(){
+        if(nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")){
+            setStatus(false);
+        }else{
+            setStatus(true);
+        }
+    }
     void loadtable() {
         List<QLNPP> ql = NPPSV.findALL();
         if (ql == null) {
@@ -103,10 +129,10 @@ public class NhaPPFrm extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         cbxTT = new javax.swing.JComboBox<>();
         cbxMaSP = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        btnHT = new javax.swing.JButton();
         jLabel62 = new javax.swing.JLabel();
         txtMa = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnCl = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -186,10 +212,10 @@ public class NhaPPFrm extends javax.swing.JPanel {
 
         cbxMaSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SP001", "SP002", "SP003", "SP004" }));
 
-        jButton1.setText("Hiển thị");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnHT.setText("Hiển thị");
+        btnHT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnHTActionPerformed(evt);
             }
         });
 
@@ -199,10 +225,10 @@ public class NhaPPFrm extends javax.swing.JPanel {
         txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMa.setText("--");
 
-        jButton2.setText("CLear");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnCl.setText("CLear");
+        btnCl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnClActionPerformed(evt);
             }
         });
 
@@ -255,11 +281,11 @@ public class NhaPPFrm extends javax.swing.JPanel {
                                     .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(2, 2, 2)
-                                .addComponent(jButton1)
+                                .addComponent(btnHT)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnLoc)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton2)))
+                                .addComponent(btnCl)))
                         .addGap(18, 18, 18))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(239, 239, 239)
@@ -304,9 +330,9 @@ public class NhaPPFrm extends javax.swing.JPanel {
                         .addComponent(cbxTT, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton1)
+                            .addComponent(btnHT)
                             .addComponent(btnLoc)))
-                    .addComponent(jButton2))
+                    .addComponent(btnCl))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(30, Short.MAX_VALUE))
@@ -512,7 +538,7 @@ public class NhaPPFrm extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnTKActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnHTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHTActionPerformed
         // TODO add your handling code here:
         if (tblNPP.getRowCount() < NPPSV.findALL().size()) {
             model = (DefaultTableModel) tblNPP.getModel();
@@ -521,14 +547,16 @@ public class NhaPPFrm extends javax.swing.JPanel {
         } else {
             JOptionPane.showMessageDialog(this, "Đã hiển thị danh sách nhà phân phối");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnHTActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnClActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClActionPerformed
         clearForm();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnClActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCl;
+    private javax.swing.JButton btnHT;
     private javax.swing.JButton btnLoc;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnTK;
@@ -536,8 +564,6 @@ public class NhaPPFrm extends javax.swing.JPanel {
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cbxMaSP;
     private javax.swing.JComboBox<String> cbxTT;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

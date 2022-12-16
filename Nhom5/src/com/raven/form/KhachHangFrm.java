@@ -6,6 +6,8 @@ package com.raven.form;
 
 import DomainModels.KhachHang;
 import ServiceImpl.KhachHangSV;
+import ServiceImpl.NguoiDungServiceImpl;
+import Services.NguoiDungService;
 import ViewModels.QLKH;
 import java.sql.SQLException;
 import java.util.List;
@@ -16,10 +18,13 @@ public class KhachHangFrm extends javax.swing.JPanel {
 
     private final KhachHangSV khSV;
     DefaultTableModel model;
+    private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
     
     public KhachHangFrm() {
         initComponents();
         khSV = new KhachHangSV();
+        PQ();
         model = new DefaultTableModel();
         model = (DefaultTableModel) tblKH.getModel();
         model.setRowCount(0);
@@ -27,6 +32,25 @@ public class KhachHangFrm extends javax.swing.JPanel {
         this.clearForm();
     }
 
+    public void setStatus(boolean insertable){ 
+        //txtMaCD.setEditable(insertable); 
+        btnClear.setEnabled(!insertable); 
+        btnSua.setEnabled(!insertable); 
+        btnThem.setEnabled(!insertable); 
+        btnTK.setEnabled(!insertable); 
+        btnXoa.setEnabled(!insertable); 
+//        btnFisrt.setEnabled(!insertable && first); 
+//        btnPrev.setEnabled(!insertable && first); 
+//        btnLast.setEnabled(!insertable && last); 
+//        btnNext.setEnabled(!insertable && last); 
+    }    
+    public void PQ(){
+        if(nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")){
+            setStatus(false);
+        }else{
+            setStatus(true);
+        }
+    }
     void loadtable() {
             List<QLKH> ql = khSV.findALL();
             if (ql == null) {
@@ -87,7 +111,7 @@ public class KhachHangFrm extends javax.swing.JPanel {
         rdbNam = new javax.swing.JRadioButton();
         rdbNu = new javax.swing.JRadioButton();
         txtMa = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel3.setText("Quản lý khách hàng");
@@ -158,10 +182,10 @@ public class KhachHangFrm extends javax.swing.JPanel {
         txtMa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMa.setText("--");
 
-        jButton2.setText("Clear");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
 
@@ -198,7 +222,7 @@ public class KhachHangFrm extends javax.swing.JPanel {
                                         .addGap(34, 34, 34)
                                         .addComponent(btnTK)))))
                         .addGap(98, 98, 98)
-                        .addComponent(jButton2))
+                        .addComponent(btnClear))
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -262,7 +286,7 @@ public class KhachHangFrm extends javax.swing.JPanel {
                     .addComponent(btnSua)
                     .addComponent(btnXoa)
                     .addComponent(btnTK)
-                    .addComponent(jButton2))
+                    .addComponent(btnClear))
                 .addGap(90, 90, 90)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
                 .addContainerGap())
@@ -475,18 +499,18 @@ public class KhachHangFrm extends javax.swing.JPanel {
         txtNgayDki.setText(tblKH.getValueAt(row, 6).toString());
     }//GEN-LAST:event_tblKHMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         this.clearForm();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnTK;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

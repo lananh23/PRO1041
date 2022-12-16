@@ -4,6 +4,8 @@ import Services.IManageLoaiSanPhamService;
 import Services.IManageSanPhamService;
 import ServiceImpl.ManageLoaiSanPhamService;
 import ServiceImpl.ManageSanPhamService;
+import ServiceImpl.NguoiDungServiceImpl;
+import Services.NguoiDungService;
 import ViewModels.QLLoaiSanPham;
 import ViewModels.QLSanPham;
 import com.github.sarxos.webcam.Webcam;
@@ -36,10 +38,13 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
     private static Webcam webcam;
     private WebcamPanel panel = null;
     private Executor executor = Executors.newSingleThreadExecutor(this);
+    private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
 
     public SanPhamFrm() {
         initComponents();
         initwebcam();
+        PQ();
         this.sanPhamService = new ManageSanPhamService();
         this.loaiSanPhamService = new ManageLoaiSanPhamService();
         List<QLLoaiSanPham> dsLSP = loaiSanPhamService.ALL();
@@ -68,6 +73,26 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         webcam.close();
     }
 
+        public void setStatus(boolean insertable){ 
+        //txtMaCD.setEditable(insertable); 
+        btnClear.setEnabled(!insertable); 
+        btnSua.setEnabled(!insertable); 
+        btnThem.setEnabled(!insertable); 
+        btnTim.setEnabled(!insertable); 
+        btnXoa.setEnabled(!insertable); 
+        btnHT.setEnabled(!insertable);  
+//        btnFisrt.setEnabled(!insertable && first); 
+//        btnPrev.setEnabled(!insertable && first); 
+//        btnLast.setEnabled(!insertable && last); 
+//        btnNext.setEnabled(!insertable && last); 
+    }    
+    public void PQ(){
+        if(nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")){
+            setStatus(false);
+        }else{
+            setStatus(true);
+        }
+    }
     public void loadTable() {
         DefaultTableModel dtm = (DefaultTableModel) this.tbl_SP.getModel();
         dtm.setRowCount(0);
@@ -214,8 +239,8 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         jPanel2 = new javax.swing.JPanel();
         btnHuy = new javax.swing.JButton();
         txtMaSP = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        btnHT = new javax.swing.JButton();
 
         jPanel4.setPreferredSize(new java.awt.Dimension(841, 650));
 
@@ -322,17 +347,17 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         txtMaSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMaSP.setText("--");
 
-        jButton1.setText("Clear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnClear.setText("Clear");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClearActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Hiển thị");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnHT.setText("Hiển thị");
+        btnHT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnHTActionPerformed(evt);
             }
         });
 
@@ -362,9 +387,9 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
                         .addGap(18, 18, 18)
                         .addComponent(btnTim)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1)
+                        .addComponent(btnClear)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2))
+                        .addComponent(btnHT))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -453,8 +478,8 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
                     .addComponent(btnTim)
                     .addComponent(cboLocTheoMaLoaiSanPham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnClear)
+                    .addComponent(btnHT))
                 .addGap(26, 26, 26)
                 .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -622,17 +647,17 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
         webcam.close();
     }//GEN-LAST:event_btnHuyActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         this.clearForm();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnClearActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnHTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHTActionPerformed
         if (tbl_SP.getRowCount() < sanPhamService.ALL().size()) {
             loadTable();
         } else {
             JOptionPane.showMessageDialog(this, "Đã hiển thị danh sách nhân viên");
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnHTActionPerformed
 
     private void initwebcam() {
         Dimension size = WebcamResolution.QQVGA.getSize();
@@ -683,6 +708,8 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnHT;
     private javax.swing.JButton btnHuy;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
@@ -690,8 +717,6 @@ public class SanPhamFrm extends javax.swing.JPanel implements Runnable, ThreadFa
     private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboLocTheoMaLoaiSanPham;
     private javax.swing.JComboBox<String> cboMaLSP;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;

@@ -6,6 +6,8 @@ package com.raven.form;
 
 import Services.IManageLoaiSanPhamService;
 import ServiceImpl.ManageLoaiSanPhamService;
+import ServiceImpl.NguoiDungServiceImpl;
+import Services.NguoiDungService;
 import ViewModels.QLLoaiSanPham;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -16,13 +18,35 @@ public class LoaiSPFrm extends javax.swing.JPanel {
      * Creates new form LoaiSPFrm
      */
     private IManageLoaiSanPhamService loaiSanPhamService;
+    private NguoiDungService nguoiDungService = new NguoiDungServiceImpl();
+    private DomainModels.dangNhap n;
     public LoaiSPFrm() {
         initComponents();
+        PQ();
         this.loaiSanPhamService = new ManageLoaiSanPhamService();
         this.loadTable();
         this.clearForm();
     }
 
+    public void setStatus(boolean insertable){ 
+        //txtMaCD.setEditable(insertable); 
+        btnCl.setEnabled(!insertable); 
+        btnCapNhat.setEnabled(!insertable); 
+        btnThem.setEnabled(!insertable); 
+        btnTimKiem.setEnabled(!insertable); 
+        btnXoa.setEnabled(!insertable); 
+//        btnFisrt.setEnabled(!insertable && first); 
+//        btnPrev.setEnabled(!insertable && first); 
+//        btnLast.setEnabled(!insertable && last); 
+//        btnNext.setEnabled(!insertable && last); 
+    }    
+    public void PQ(){
+        if(nguoiDungService.findND(n.getCurrentLoginUsername()).getChucVu().equals("Quản lý")){
+            setStatus(false);
+        }else{
+            setStatus(true);
+        }
+    }
     public void loadTable() {
         DefaultTableModel dtm = (DefaultTableModel) this.tbl_LSP.getModel();
         dtm.setRowCount(0);
@@ -70,7 +94,7 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         jScrollPane12 = new javax.swing.JScrollPane();
         txtMoTa = new javax.swing.JTextArea();
         txtMaLSP = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnCl = new javax.swing.JButton();
 
         jLabel58.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel58.setText("Quản lý loại sản phẩm");
@@ -131,10 +155,10 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         txtMaLSP.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtMaLSP.setText("--");
 
-        jButton1.setText("Clear");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnCl.setText("Clear");
+        btnCl.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnClActionPerformed(evt);
             }
         });
 
@@ -173,7 +197,7 @@ public class LoaiSPFrm extends javax.swing.JPanel {
                         .addGap(35, 35, 35)
                         .addComponent(btnTimKiem)
                         .addGap(28, 28, 28)
-                        .addComponent(jButton1)
+                        .addComponent(btnCl)
                         .addGap(114, 114, 114)))
                 .addGap(88, 88, 88))
         );
@@ -206,7 +230,7 @@ public class LoaiSPFrm extends javax.swing.JPanel {
                             .addComponent(btnXoa)
                             .addComponent(btnCapNhat)
                             .addComponent(btnThem)
-                            .addComponent(jButton1))))
+                            .addComponent(btnCl))))
                 .addGap(27, 27, 27)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.DEFAULT_SIZE, 363, Short.MAX_VALUE)
                 .addGap(32, 32, 32))
@@ -316,17 +340,17 @@ public class LoaiSPFrm extends javax.swing.JPanel {
         this.txtMoTa.setText(moTa);
     }//GEN-LAST:event_tbl_LSPMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnClActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClActionPerformed
         this.clearForm();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnClActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapNhat;
+    private javax.swing.JButton btnCl;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel58;
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel60;
